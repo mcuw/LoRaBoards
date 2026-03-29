@@ -21,6 +21,7 @@ void setup() {
 }
 
 void loop() {
-  buttonLoop();
-  delay(2);
+  vTaskDelete(NULL); // current task is not needed anymore or delete this line to keep the loop running
+
+  // delay(2);
 }

@@ -7,7 +7,6 @@
 typedef void (*callbackFunction)(void);
 
 void setupButton(callbackFunction onClick, callbackFunction onDoubleClick = nullptr, callbackFunction onLongPress = nullptr);
-void buttonLoop();
-#endif // HAS_BUTTON
 
+#endif // HAS_BUTTON
 #endif // LG_BUTTON_H
