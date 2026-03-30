@@ -1,19 +1,29 @@
 #ifdef HAS_LED
-static uint8_t ledState = LOW;
-static const uint32_t debounceDelay = 50;
-static uint32_t lastDebounceTime = 0;
+#include <Arduino.h>
+#include "LgLed.h"
 
-void flashLed()
+uint8_t LgLed::ledState = LOW;
+uint32_t LgLed::lastDebounceTime = 0;
+
+LgLed::LgLed()
 {
-    if ((millis() - lastDebounceTime) > debounceDelay) {
-        ledState = !ledState;
-        if (ledState) {
-            digitalWrite(BOARD_LED, LED_ON);
-        } else {
-            digitalWrite(BOARD_LED, !LED_ON);
-        }
-        lastDebounceTime = millis();
+}
+
+void LgLed::flashLed(uint32_t debounceDelay)
+{
+  if ((millis() - lastDebounceTime) > debounceDelay)
+  {
+    ledState = !ledState;
+    if (ledState)
+    {
+      digitalWrite(LED_BUILTIN, LED_ON);
     }
+    else
+    {
+      digitalWrite(LED_BUILTIN, !LED_ON);
+    }
+    lastDebounceTime = millis();
+  }
 }
 
 #endif /* HAS_LED */

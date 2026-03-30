@@ -47,6 +47,7 @@
 #endif
 #endif // USE_SX1276
 
+// GPS
 #ifndef CONFIG_RADIO_RESTART_ON_FAIL
 #define CONFIG_RADIO_RESTART_ON_FAIL true
 #endif

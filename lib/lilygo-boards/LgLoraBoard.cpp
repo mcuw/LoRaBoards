@@ -3,10 +3,10 @@
 #include <RadioLib.h> // https://jgromes.github.io/RadioLib
 #include "LgLoraBoard.h"
 #include "devices/LgButton.h"
+#include "devices/LgLed.h"
 // #include "devices/LgBluetooth.h"
 // #include "devices/LgDisplay.h"
 // #include "devices/LgGps.h"
-// #include "devices/LgLed.h"
 // #include "devices/LgPmu.h"
 // #include "devices/LgNtc.h"
 // #include "devices/LgSdCard.h"
@@ -58,7 +58,10 @@ SX1276 radio = new Module(LORA_CS, LORA_IRQ, LORA_RST); // NSS, RST, DIO0
 
 LgLoraBoard::LgLoraBoard() :
 #ifdef HAS_BUTTON
-  button(new LgButton())
+  button(new LgButton()),
+#endif
+#ifdef HAS_LED
+  led(new LgLed())
 #endif
 {
 };
@@ -69,6 +72,12 @@ LgLoraBoard::~LgLoraBoard()
   if (button) {
     delete button;
     button = nullptr;
+  }
+#endif
+#ifdef HAS_LED
+  if (led) {
+    delete led;
+    led = nullptr;
   }
 #endif
 }
@@ -196,15 +205,14 @@ void LgLoraBoard::setupRadioBoard()
   delay(20);
 #endif
 
-#ifdef BOARD_LED
+#ifdef HAS_LED
   // T-Beam LED defaults to low level as turn on,
   // so it needs to be forced to pull up
 #if LED_ON == LOW
-  gpio_hold_dis((gpio_num_t)BOARD_LED);
-#endif
-
-  pinMode(BOARD_LED, OUTPUT);
-  digitalWrite(BOARD_LED, LED_ON);
+  gpio_hold_dis((gpio_num_t)LED_BUILTIN);
+#endif // LED_ON == LOW
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LED_ON);
 #endif
 
 #ifdef GPS_RST_PIN
@@ -265,22 +273,23 @@ void LgLoraBoard::setupRadioBoard()
   pinMode(FAN_CTRL, OUTPUT);
 #endif
 
+// TODO: add GPS recovery function, try to restore factory settings if GPS is not found at startup
 #ifdef HAS_GPS
 #if defined(T_BEAM_S3_SUPREME) || defined(T_BEAM_1W) || defined(T_BEAM_S3_BPF)
   // T-Beam v1.2 skips L76K
   find_gps = beginGPS();
 #endif
-  uint32_t baudrate[] = {9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600, 4800};
+  uint32_t baudrate[] = { 9600 }; // 19200, 38400, 57600, 115200, 230400, 460800, 921600, 4800
   if (!find_gps)
   {
     // Restore factory settings
     for (int i = 0; i < sizeof(baudrate) / sizeof(baudrate[0]); ++i)
     {
-      ESP_LOGD(TAG, "Update baudrate : %u", baudrate[i]);
+      ESP_LOGD(TAG, "GPS: Update baudrate : %u", baudrate[i]);
       SerialGPS.updateBaudRate(baudrate[i]);
       if (recoveryGPS())
       {
-        ESP_LOGD(TAG, "UBlox GNSS init succeeded, using UBlox GNSS Module");
+        ESP_LOGD(TAG, "UBlox GNSS init succeeded, using baudrate: %u", baudrate[i]);
         gps_model = "UBlox";
         find_gps = true;
         break;
@@ -607,10 +616,21 @@ void LgLoraBoard::setupButton(callbackFunction onClick, callbackFunction onDoubl
 {
 #ifdef HAS_BUTTON
   button->setupButton(onClick, onDoubleClick, onLongPress);
+#else
+  ESP_LOGW(TAG, "Button not available on this board");
 #endif
 }
 
 void LgLoraBoard::updateOnlineStatus(uint32_t status)
 {
   deviceOnline |= status;
+}
+
+void LgLoraBoard::flashLed(uint32_t debounceDelay)
+{
+#ifdef HAS_LED
+  led->flashLed(debounceDelay);
+#else
+  ESP_LOGW(TAG, "LED not available on this board");
+#endif // HAS_LED
 }

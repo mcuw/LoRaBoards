@@ -20,13 +20,13 @@
 #include "devices/LgBluetooth.h"
 #include "devices/LgDisplay.h"
 #include "devices/LgGps.h"
-#include "devices/LgLed.h"
 #include "devices/LgPmu.h"
 #include "devices/LgNtc.h"
 #include "devices/LgSdCard.h"
 #include "devices/LgTwoWire.h"
 
 class LgButton;
+class LgLed;
 
 class LgLoraBoard {
 public:
@@ -52,18 +52,17 @@ public:
     void printChipInfo();
 
     // *** Button ***
-#ifdef HAS_BUTTON
     void setupButton(callbackFunction onClick, callbackFunction onDoubleClick = nullptr, callbackFunction onLongPress = nullptr);
-#endif // HAS_BUTTON
+
+    // *** builtin LED ***
+    void flashLed(uint32_t debounceDelay = 50);
 
 protected:
 
 private:
     static uint32_t deviceOnline;
-#ifdef HAS_BUTTON
     LgButton* button;
-#endif
-
+    LgLed* led;
 };
 
 #endif /* LG_LORA_BOARD_H */

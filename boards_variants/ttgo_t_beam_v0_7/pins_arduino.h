@@ -17,14 +17,19 @@
 #define LORA_IO2 32     // GPIO32 - SX1276 IO2 -> wired on pcb AND connected to header pin LORA2
 
 // ublox GPS NEO-6M-0-001
+#define GPS_BAUD_RATE 9600
 #define GPS_RX_PIN 15
 #define GPS_TX_PIN 12
 
 #define BUTTON_PIN 39
+#define BUTTON_ACTIVEHIGH 0
+#define BUTTON_PULLUP 1
 
+// built-in LED
 static const uint8_t LED_BUILTIN = 14;
 #define BUILTIN_LED  LED_BUILTIN // backward compatibility
 #define LED_BUILTIN LED_BUILTIN  // allow testing #ifdef LED_BUILTIN
+#define LED_ON LOW // LED defaults to low level as turn on
 
 static const uint8_t TX = 1;
 static const uint8_t RX = 3;

@@ -22,6 +22,8 @@
 #define TX 1
 #define RX 3
 
+// GPS ublox GPS NEO-6M-0-001
+#define GPS_BAUD_RATE 9600
 #define GPS_RX_PIN 34
 #define GPS_TX_PIN 12
 
@@ -32,9 +34,8 @@
 
 #define SDA 21
 #define SCL 22
-#define PMU_IRQ 35 // Battery ADC
 
-#define GPS_BAUD_RATE 9600
+#define PMU_IRQ 35 // Battery ADC
 #define PMU_WIRE_PORT Wire
 
 // #define HAS_DISPLAY //Optional, bring your own board, no OLED !!
