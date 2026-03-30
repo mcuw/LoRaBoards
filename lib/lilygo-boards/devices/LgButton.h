@@ -11,12 +11,12 @@ public:
     virtual ~LgButton();
 
     void setupButton(callbackFunction onClick, callbackFunction onDoubleClick = nullptr, callbackFunction onLongPress = nullptr);
+
 private:
     static void buttonTick(void *pvParameters);
 
     OneButton* button;
     TaskHandle_t taskButtonHandle;
 };
-
 #endif // HAS_BUTTON
 #endif // LG_BUTTON_H

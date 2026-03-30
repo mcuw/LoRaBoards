@@ -52,13 +52,29 @@
 #define CONFIG_RADIO_RESTART_ON_FAIL true
 #endif
 
-// button tick interval in milliseconds
-#define CONFIG_BUTTON_TICK_INTERVAL_MS 30
 // higher prio than the lower prio tasks to ensure emergency button events are processed in time
+#ifndef CONFIG_BUTTON_TASK_PRIORITY
 #define CONFIG_BUTTON_TASK_PRIORITY 1
+#endif
 // run button task on core 1 to avoid conflicts with other tasks running on core 0, e.g. LoRa communication
 #ifndef CONFIG_BUTTON_CORE
 #define CONFIG_BUTTON_CORE ARDUINO_RUNNING_CORE
+#endif
+// button tick interval in milliseconds
+#ifndef CONFIG_BUTTON_TICK_INTERVAL_MS
+#define CONFIG_BUTTON_TICK_INTERVAL_MS 30
+#endif
+
+// LED task priority with lowest prio as default
+// to ensure LED state is updated after processing other tasks, e.g. button events
+#ifndef CONFIG_LED_TASK_PRIORITY
+#define CONFIG_LED_TASK_PRIORITY 0
+#endif
+#ifndef CONFIG_LED_CORE
+#define CONFIG_LED_CORE ARDUINO_RUNNING_CORE
+#endif
+#ifndef CONFIG_LED_TICK_INTERVAL_MS
+#define CONFIG_LED_TICK_INTERVAL_MS 2
 #endif
 
 #endif // !defined(USE_SX1262) && !defined(USE_SX1276)

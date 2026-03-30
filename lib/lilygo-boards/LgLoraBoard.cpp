@@ -206,14 +206,8 @@ void LgLoraBoard::setupRadioBoard()
 #endif
 
 #ifdef HAS_LED
-  // T-Beam LED defaults to low level as turn on,
-  // so it needs to be forced to pull up
-#if LED_ON == LOW
-  gpio_hold_dis((gpio_num_t)LED_BUILTIN);
-#endif // LED_ON == LOW
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LED_ON);
-#endif
+  led->setupLed();
+#endif // HAS_LED
 
 #ifdef GPS_RST_PIN
   pinMode(GPS_RST_PIN, OUTPUT);
@@ -617,7 +611,7 @@ void LgLoraBoard::setupButton(callbackFunction onClick, callbackFunction onDoubl
 #ifdef HAS_BUTTON
   button->setupButton(onClick, onDoubleClick, onLongPress);
 #else
-  ESP_LOGW(TAG, "Button not available on this board");
+  ESP_LOGW(TAG, "Button not available on this board or not implemented yet");
 #endif
 }
 
@@ -626,11 +620,12 @@ void LgLoraBoard::updateOnlineStatus(uint32_t status)
   deviceOnline |= status;
 }
 
-void LgLoraBoard::flashLed(uint32_t debounceDelay)
+void LgLoraBoard::blinkLed(uint32_t debounceDelay)
 {
-#ifdef HAS_LED
-  led->flashLed(debounceDelay);
-#else
-  ESP_LOGW(TAG, "LED not available on this board");
-#endif // HAS_LED
+  led->enableBlinkLed(true, debounceDelay);
+}
+
+void LgLoraBoard::disableLed()
+{
+  led->enableBlinkLed(false);
 }

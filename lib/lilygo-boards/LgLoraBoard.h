@@ -55,7 +55,8 @@ public:
     void setupButton(callbackFunction onClick, callbackFunction onDoubleClick = nullptr, callbackFunction onLongPress = nullptr);
 
     // *** builtin LED ***
-    void flashLed(uint32_t debounceDelay = 50);
+    void blinkLed(uint32_t debounceDelay = 50);
+    void disableLed();
 
 protected:
 

@@ -17,7 +17,7 @@ void onButtonLongPress() {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("LoRa button example");
+  Serial.println("Button example");
 
   board.setupButton(onButtonClick, onButtonDoubleClick, onButtonLongPress);
 }
