@@ -56,6 +56,8 @@
 // higher prio than the lower prio tasks to ensure emergency button events are processed in time
 #define CONFIG_BUTTON_TASK_PRIORITY 1
 // run button task on core 1 to avoid conflicts with other tasks running on core 0, e.g. LoRa communication
-#define CONFIG_BUTTON_CORE 1
+#ifndef CONFIG_BUTTON_CORE
+#define CONFIG_BUTTON_CORE ARDUINO_RUNNING_CORE
+#endif
 
 #endif // !defined(USE_SX1262) && !defined(USE_SX1276)
