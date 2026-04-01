@@ -8,7 +8,6 @@
 // I2C OLED Display works with SSD1306 driver
 #define OLED_SDA 21
 #define OLED_SCL 22
-#define OLED_RST 16
 
 // SPI LoRa Radio
 #define LORA_SCK  5   // GPIO5 - SX1276 SCK

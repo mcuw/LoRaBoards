@@ -168,7 +168,7 @@ void LgLoraBoard::setupRadioBoard()
 
   SPI.begin(LORA_SCK, LORA_MISO, LORA_MOSI, LORA_CS);
 
-#if defined(HAS_SDCARD)
+#ifdef HAS_SDCARD
 #if defined(SD_SHARE_SPI_BUS)
   // Share spi bus with lora , set lora cs,rst to high
   pinMode(LORA_CS, OUTPUT);
@@ -201,7 +201,7 @@ void LgLoraBoard::setupRadioBoard()
   digitalWrite(GPS_RST_PIN, HIGH);
 #endif
 
-#if OLED_RST
+#ifdef OLED_RST
   pinMode(OLED_RST, OUTPUT);
   digitalWrite(OLED_RST, HIGH);
   delay(20);
@@ -209,7 +209,7 @@ void LgLoraBoard::setupRadioBoard()
   delay(20);
   digitalWrite(OLED_RST, HIGH);
   delay(20);
-#endif
+#endif // OLED_RST
 
 #ifdef HAS_LED
   led->setupLed();
