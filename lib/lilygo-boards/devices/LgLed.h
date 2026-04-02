@@ -11,7 +11,7 @@ public:
   virtual ~LgLed() {};
   
   void setupLed();
-  void enableBlinkLed(bool enable = false, uint32_t debounceDelay = 50);
+  void enableBlinkLed(bool enable = true, uint32_t debounceDelay = 50);
 
 private:
   static void loopLed(void *pvParameters);

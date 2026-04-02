@@ -3,8 +3,12 @@
 #include "LgLed.h"
 #include "config.h"
 
+#ifndef LED_ON
+#define LED_ON HIGH // LED to high level is turn on
+#endif // LED_ON
+
 LgLed::LgLed() :
-  _ledState(LOW),
+  _ledState(!LED_ON),
   _lastDebounceTime(0),
   _enabled(false),
   _debounceDelay(0)
@@ -38,13 +42,14 @@ void LgLed::loopLed(void *pvParameters)
 
 void LgLed::setupLed()
 {
-  // T-Beam LED defaults to low level as turn on,
+  #if LED_ON == LOW
+  // some T-Beam LED defaults to low level as turn on,
   // so it needs to be forced to pull up
-#if LED_ON == LOW
   gpio_hold_dis((gpio_num_t)LED_BUILTIN);
 #endif // LED_ON == LOW
+
   pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, LED_ON);
+  digitalWrite(LED_BUILTIN, _ledState);
 
   xTaskCreatePinnedToCore(
     loopLed,                  // Function name of the task
@@ -61,6 +66,12 @@ void LgLed::enableBlinkLed(bool enable, uint32_t debounceDelay)
 {
   _enabled = enable;
   _debounceDelay = debounceDelay;
+
+  if (!enable)
+  {
+    // turn off LED when disabling
+    digitalWrite(LED_BUILTIN, !LED_ON);
+  }
 }
 
 #endif // HAS_LED

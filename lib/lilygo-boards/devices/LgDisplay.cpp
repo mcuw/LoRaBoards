@@ -48,7 +48,7 @@ bool LgDisplay::beginDisplay()
 void LgDisplay::displaySplashScreen() {
   display->setFont(ArialMT_Plain_16);
   display->setTextAlignment(TEXT_ALIGN_CENTER);
-  display->drawString(display->getWidth() / 2, (display->getHeight() / 2) - 16, F("ESP32 LoRa."));
+  display->drawString(display->getWidth() / 2, (display->getHeight() / 2) - 16, F("ESP32 LoRa"));
   display->display();
 }
 

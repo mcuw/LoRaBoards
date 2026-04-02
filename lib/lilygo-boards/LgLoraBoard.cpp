@@ -349,38 +349,9 @@ void LgLoraBoard::printBoardStatus()
   ESP_LOGD(TAG, "GPS          : %s", find_gps ? "+" : "-");
 #endif
 
-#ifdef DISPLAY_MODEL
-  if (disp)
-  {
+// TODO show status on display if available
 
-    disp->clearBuffer();
-    disp->setFont(u8g2_font_NokiaLargeBold_tf);
-    uint16_t str_w = disp->getStrWidth(BOARD_VARIANT_NAME);
-    disp->drawStr((disp->getWidth() - str_w) / 2, 16, BOARD_VARIANT_NAME);
-    disp->drawHLine(5, 21, disp->getWidth() - 5);
-
-    disp->drawStr(0, 38, "Disp:");
-    disp->drawStr(45, 38, (disp) ? "+" : "-");
-
-#ifdef HAS_SDCARD
-    disp->drawStr(0, 54, "SD :");
-    disp->drawStr(45, 54, (SD.cardSize() != 0) ? "+" : "-");
-#endif
-
-    disp->drawStr(62, 38, "Radio:");
-    disp->drawStr(120, 38, (radioOnline) ? "+" : "-");
-
-#ifdef HAS_PMU
-    disp->drawStr(62, 54, "Power:");
-    disp->drawStr(120, 54, (PMU) ? "+" : "-");
-#endif
-
-    disp->sendBuffer();
-
-    delay(2000);
-  }
-#endif
-#endif // DISPLAY_MODEL
+#endif // defined(CONFIG_IDF_TARGET_ESP32) || defined(CONFIG_IDF_TARGET_ESP32S3)
 }
 
 bool LgLoraBoard::beginRadioLib(bool restartOnFail)

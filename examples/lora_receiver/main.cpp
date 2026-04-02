@@ -27,6 +27,12 @@ void loop() {
       if (i < packetSize - 1) Serial.print(", ");
     }
     Serial.println(F("]"));
+
+    Serial.println("Blinking LED to indicate packet received");
+    board.blinkLed();
+    delay(400);
+    Serial.println("Disabling LED after packet received");
+    board.disableLed();
   }
 
   delay(2);
