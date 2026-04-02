@@ -1,5 +1,5 @@
-# ESP32 lora
+# ESP32 LoRa boards Arduino library
 
-pinouts and config
+## Pinouts and config
 
 https://github.com/Xinyuan-LilyGO/LilyGo-LoRa-Series/blob/master/examples/TBeamFactory/utilities.h
