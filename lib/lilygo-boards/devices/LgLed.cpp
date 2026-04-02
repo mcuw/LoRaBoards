@@ -4,8 +4,8 @@
 #include "config.h"
 
 LgLed::LgLed() :
-  ledState(LOW),
-  lastDebounceTime(0),
+  _ledState(LOW),
+  _lastDebounceTime(0),
   _enabled(false),
   _debounceDelay(0)
 {
@@ -17,10 +17,10 @@ void LgLed::loopLed(void *pvParameters)
 
   for (;;) {
     if (self->_enabled) {
-      if ((millis() - self->lastDebounceTime) > self->_debounceDelay)
+      if ((millis() - self->_lastDebounceTime) > self->_debounceDelay)
       {
-        self->ledState = !self->ledState;
-        if (self->ledState)
+        self->_ledState = !self->_ledState;
+        if (self->_ledState)
         {
           digitalWrite(LED_BUILTIN, LED_ON);
         }
@@ -28,7 +28,7 @@ void LgLed::loopLed(void *pvParameters)
         {
           digitalWrite(LED_BUILTIN, !LED_ON);
         }
-        self->lastDebounceTime = millis();
+        self->_lastDebounceTime = millis();
       }
     }
 

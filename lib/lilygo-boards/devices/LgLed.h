@@ -16,8 +16,8 @@ public:
 private:
   static void loopLed(void *pvParameters);
 
-  uint8_t ledState;
-  uint32_t lastDebounceTime;
+  uint8_t _ledState;
+  uint32_t _lastDebounceTime;
   bool _enabled;
   uint32_t _debounceDelay;
   TaskHandle_t taskLedHandle;
