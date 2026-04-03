@@ -19,8 +19,8 @@ void loop() {
   int packetSize = board.hasRadioPacket();
   if (packetSize) {
     byte receivedData[packetSize];
-    bool success = board.readRadioBytes(packetSize, receivedData);
-    if (success) {
+    int errorState = board.readRadioBytes(packetSize, receivedData);
+    if (!errorState) {
       Serial.print(F("Data: ["));
       for (int i = 0; i < packetSize; i++) {
         Serial.printf("0x%02X", receivedData[i]);
@@ -33,8 +33,7 @@ void loop() {
       delay(400);
       Serial.println(F("Disabling LED after packet received"));
       board.disableLed();
-    }
-    else {
+    } else {
       Serial.println(F("Failed to read received data"));
     }
   }

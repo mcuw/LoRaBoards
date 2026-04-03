@@ -44,7 +44,7 @@ public:
 
     // *** LoRa ***
     int hasRadioPacket();
-    void readRadioBytes(int packetSize, byte* data);
+    int readRadioBytes(int packetSize, byte* data);
     int transmitRadioBytes(int packetSize, byte* data);
 
     // *** Board Status ***

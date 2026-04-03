@@ -4,6 +4,7 @@
 #include "LgLoraBoard.h"
 #include "devices/LgButton.h"
 #include "devices/LgLed.h"
+// TODO: Migrate to class and uncomment it when ready
 // #include "devices/LgBluetooth.h"
 // #include "devices/LgDisplay.h"
 // #include "devices/LgGps.h"
@@ -40,12 +41,15 @@ volatile bool receivedFlag = false;
 #if defined(ESP32)
 ICACHE_RAM_ATTR
 #endif
-// we got a packet, set the flag
+
+// we got a packet interrupt, set the flag
 void setFlag()
 {
   receivedFlag = true;
 }
-// String str;
+
+// TODO: support send and receive of strings, not just byte arrays. For example, we can use String for LoRa messages and display on OLED, and use byte arrays for binary data like GPS coordinates.
+// String strData;
 
 #ifdef USE_SX1262
 SX1262 radio = new Module(LORA_CS, LORA_IRQ, LORA_RST, LORA_IO2);
@@ -433,52 +437,58 @@ bool LgLoraBoard::beginRadioLib(bool restartOnFail)
     return false;
   }
 
-  // // set output power to 22 dBm (accepted range is -17 - 22 dBm)
-  // if (radio.setOutputPower(LORA_RADIO_OUTPUT_POWER) == RADIOLIB_ERR_INVALID_OUTPUT_POWER) {
-  //   ESP_LOGE(TAG, "Selected output power is invalid for this module!");
-  //   while (true) { delay(10); }
-  // }
+  // set output power to 22 dBm (accepted range is -17 - 22 dBm)
+  if (radio.setOutputPower(LORA_RADIO_OUTPUT_POWER) == RADIOLIB_ERR_INVALID_OUTPUT_POWER) {
+    ESP_LOGE(TAG, "Selected output power is invalid for this module!");
+    delay(5000);
+    ESP.restart();
+  }
 
-  // // set over current protection limit to 80 mA (accepted range is 45 - 240 mA)
-  // // NOTE: set value to 0 to disable overcurrent protection
-  // if (radio.setCurrentLimit(LORA_RADIO_CURRENT_LIMIT) == RADIOLIB_ERR_INVALID_CURRENT_LIMIT) {
-  //   ESP_LOGE(TAG, "Selected current limit is invalid for this module!");
-  //   while (true) { delay(10); }
-  // }
+  // set over current protection limit to 80 mA (accepted range is 45 - 240 mA)
+  // NOTE: set value to 0 to disable overcurrent protection
+  if (radio.setCurrentLimit(LORA_RADIO_CURRENT_LIMIT) == RADIOLIB_ERR_INVALID_CURRENT_LIMIT) {
+    ESP_LOGE(TAG, "Selected current limit is invalid for this module!");
+    delay(5000);
+    ESP.restart();
+  }
 
-  // // set LoRa preamble length to 15 symbols (accepted range is 0 - 65535)
-  // if (radio.setPreambleLength(LORA_RADIO_PREAMBLE_LENGTH) == RADIOLIB_ERR_INVALID_PREAMBLE_LENGTH) {
-  //   ESP_LOGE(TAG, "Selected preamble length is invalid for this module");
-  //   while (true) { delay(10); }
-  // }
+  // set LoRa preamble length to 15 symbols (accepted range is 0 - 65535)
+  if (radio.setPreambleLength(LORA_RADIO_PREAMBLE_LENGTH) == RADIOLIB_ERR_INVALID_PREAMBLE_LENGTH) {
+    ESP_LOGE(TAG, "Selected preamble length is invalid for this module");
+    delay(5000);
+    ESP.restart();
+  }
 
-  // // disable CRC
-  // if (radio.setCRC(LORA_RADIO_CRC) == RADIOLIB_ERR_INVALID_CRC_CONFIGURATION) {
-  //   ESP_LOGE(TAG, "Selected CRC is invalid for this module");
-  //   while (true) { delay(10); }
-  // }
+  // disable CRC
+  if (radio.setCRC(LORA_RADIO_CRC) == RADIOLIB_ERR_INVALID_CRC_CONFIGURATION) {
+    ESP_LOGE(TAG, "Selected CRC is invalid for this module");
+    delay(5000);
+    ESP.restart();
+  }
 
-  // // Some SX126x modules have TCXO (temperature compensated crystal
-  // // oscillator). To configure TCXO reference voltage,
-  // // the following method can be used.
-  // if (radio.setTCXO(2.4) == RADIOLIB_ERR_INVALID_TCXO_VOLTAGE) {
-  //   ESP_LOGE(TAG, "Selected TCXO voltage is invalid for this module!");
-  //   while (true) { delay(10); }
-  // }
+  // Some SX126x modules have TCXO (temperature compensated crystal
+  // oscillator). To configure TCXO reference voltage,
+  // the following method can be used.
+  if (radio.setTCXO(2.4) == RADIOLIB_ERR_INVALID_TCXO_VOLTAGE) {
+    ESP_LOGE(TAG, "Selected TCXO voltage is invalid for this module!");
+    delay(5000);
+    ESP.restart();
+  }
 
-  // // Some SX126x modules use DIO2 as RF switch. To enable
-  // // this feature, the following method can be used.
-  // // NOTE: As long as DIO2 is configured to control RF switch,
-  // //       it can't be used as interrupt pin!
-  // if (radio.setDio2AsRfSwitch() != RADIOLIB_ERR_NONE) {
-  //   ESP_LOGE(TAG, "Failed to set DIO2 as RF switch!");
-  //   while (true) { delay(10); }
-  // }
+  // Some SX126x modules use DIO2 as RF switch. To enable
+  // this feature, the following method can be used.
+  // NOTE: As long as DIO2 is configured to control RF switch,
+  //       it can't be used as interrupt pin!
+  if (radio.setDio2AsRfSwitch() != RADIOLIB_ERR_NONE) {
+    ESP_LOGE(TAG, "Failed to set DIO2 as RF switch!");
+    delay(5000);
+    ESP.restart();
+  }
 
   return true;
-#else
-  return false;
 #endif // defined(USE_SX1262) || defined(USE_SX1276)
+
+return false;
 }
 
 bool LgLoraBoard::setupRadio(bool restartOnFail)
@@ -514,27 +524,33 @@ bool LgLoraBoard::setupRadio(bool restartOnFail)
   ESP_LOGD(TAG, "LoRa: Started receive");
   return true;
 #endif // USE_SX1262 || USE_SX1276
+
+  return false;
 }
 
 int LgLoraBoard::hasRadioPacket()
 {
 #if defined(USE_SX1262) || defined(USE_SX1276)
   return receivedFlag ? radio.getPacketLength() : 0;
-// #else
-//   return LoRa.parsePacket();
 #endif // USE_SX1262 || USE_SX1276
+
+  return 0;
 }
 
-void LgLoraBoard::readRadioBytes(int packetSize, byte *data)
+int LgLoraBoard::readRadioBytes(int packetSize, byte *data)
 {
+  int state = RADIOLIB_ERR_NONE;
+
 #if defined(USE_SX1262) || defined(USE_SX1276)
   if (receivedFlag)
   {
     receivedFlag = false;
 
-    int state = radio.readData(data, packetSize);
+    state = radio.readData(data, packetSize);
     if (state == RADIOLIB_ERR_NONE)
     {
+      state = RADIOLIB_ERR_NONE;
+
       // packet was successfully received
       ESP_LOGD(TAG, "LoRa: Received packet!");
 
@@ -561,6 +577,8 @@ void LgLoraBoard::readRadioBytes(int packetSize, byte *data)
     }
   }
 #endif // USE_SX1262 || USE_SX1276
+
+  return state;
 }
 
 int LgLoraBoard::transmitRadioBytes(int packetSize, byte *data)
