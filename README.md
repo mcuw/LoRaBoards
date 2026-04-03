@@ -1,6 +1,6 @@
 # Arduino library for LoRa boards
 
-<video src="assets/lora_demo.mp4"></video>
+<video controls src="https://github.com/mcuw/LoRaBoards/blob/main/assets/lora_demo.mp4" title="lora demo"></video>
 
 ## Features 
 
