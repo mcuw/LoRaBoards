@@ -4,14 +4,13 @@
 
 - Quick kickstart your [LoRa](https://lora-alliance.org) projects
 - Supports [PlatformIO](https://platformio.org) and [pioarduino](https://github.com/pioarduino/platform-espressif32) as platforms 
-- Supports multiple firmwares builds with github actions
-- Example codes
+- Example [codes](examples/)
 
 ## Prerequisites
 
 - [VSCode](https://code.visualstudio.com) IDE
 
-- [PlatformIO](https://platformio.org/install/ide?install=vscode) or [pioarduino](https://platformio.org/install/ide?install=vscode) extension for [VSCode](https://code.visualstudio.com/) IDE
+- [PlatformIO](https://platformio.org/install/ide?install=vscode) or [pioarduino](https://platformio.org/install/ide?install=vscode) extension as [VSCode extensions](https://marketplace.visualstudio.com/VSCode)
 
 
 ## Get started
