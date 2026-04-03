@@ -39,7 +39,21 @@ wget https://raw.githubusercontent.com/mcuw/LoRaBoards/refs/heads/main/lib/confi
 build-flags = -I lib/config
 ```
 
-5. Enable LoRa boards features
+5. Enable LoRa boards features and add libraries
+
+add libraries
+```ini
+lib_deps =
+  ; RadioLib - LoRa library
+  ; releases https://github.com/jgromes/RadioLib/releases
+  jgromes/RadioLib @ ^7.6.0
+  ; button handling library, used e.g. in TTGO T-Beam
+  mathertel/OneButton @ ^2.6.2
+  ; XPowersLib - power management series library for ESP32, including PSRAM power management
+  lewisxhe/XPowersLib @ ^0.3.3
+  ; OLED driver for SSD1306 displays, used e.g. in TTGO Lora32 v1.6.1
+  thingpulse/ESP8266 and ESP32 OLED driver for SSD1306 displays @ ^4.6.2
+```
 
 add `build_flags` in platformio.ini
 ```ini
