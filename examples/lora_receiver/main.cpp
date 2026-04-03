@@ -18,21 +18,25 @@ void setup() {
 void loop() {
   int packetSize = board.hasRadioPacket();
   if (packetSize) {
-    byte data[packetSize];
-    board.readRadioBytes(packetSize, data);
-
-    Serial.print(F("Data: ["));
-    for (int i = 0; i < packetSize; i++) {
-      Serial.printf("0x%02X", data[i]);
-      if (i < packetSize - 1) Serial.print(", ");
+    byte receivedData[packetSize];
+    bool success = board.readRadioBytes(packetSize, receivedData);
+    if (success) {
+      Serial.print(F("Data: ["));
+      for (int i = 0; i < packetSize; i++) {
+        Serial.printf("0x%02X", receivedData[i]);
+        if (i < packetSize - 1) Serial.print(F(", "));
+      }
+      Serial.println(F("]"));
+      
+      Serial.println(F("Blinking LED to indicate packet received, if supported by the board ..."));
+      board.blinkLed();
+      delay(400);
+      Serial.println(F("Disabling LED after packet received"));
+      board.disableLed();
     }
-    Serial.println(F("]"));
-
-    Serial.println("Blinking LED to indicate packet received");
-    board.blinkLed();
-    delay(400);
-    Serial.println("Disabling LED after packet received");
-    board.disableLed();
+    else {
+      Serial.println(F("Failed to read received data"));
+    }
   }
 
   delay(2);
