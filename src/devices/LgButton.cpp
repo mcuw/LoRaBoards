@@ -4,7 +4,7 @@
 #include "LgButton.h"
 
 LgButton::LgButton()
-    : button(new OneButton(BUTTON_PIN, !BUTTON_ACTIVEHIGH, !!BUTTON_PULLUP)) // pin, active low, use internal pullup
+    : button(new OneButton(BUTTON_PIN, BUTTON_ACTIVELOW, !!BUTTON_PULLUP)) // pin, active low, use internal pullup
 {
 };
 
@@ -30,8 +30,6 @@ void LgButton::buttonTick(void *pvParameters)
 
 void LgButton::setupButton(callbackFunction onClickInterrupt, callbackFunction onDoubleClickInterrupt, callbackFunction onLongPressInterrupt)
 {
-  button->setup(BUTTON_PIN, INPUT_PULLUP);
-
   button->attachClick(onClickInterrupt);
   button->attachDoubleClick(onDoubleClickInterrupt);
   button->attachLongPressStart(onLongPressInterrupt);
@@ -45,5 +43,10 @@ void LgButton::setupButton(callbackFunction onClickInterrupt, callbackFunction o
       &taskButtonHandle,           // Assign task handle
       LORA_BUTTON_CORE           // Run on core 1
   );
+}
+
+void LgButton::reconfigureButton(uint8_t pin, uint8_t mode, bool activeLow)
+{
+  button->setup(pin, mode, activeLow);
 }
 #endif // HAS_BUTTON

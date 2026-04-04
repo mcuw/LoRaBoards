@@ -28,9 +28,8 @@
 #define GPS_TX_PIN 12
 
 #define BUTTON_PIN 38
-#define BUTTON_PIN_MASK GPIO_SEL_38
-#define BUTTON_ACTIVEHIGH 0
-#define BUTTON_PULLUP 1
+#define BUTTON_ACTIVELOW 1
+#define BUTTON_PULLUP 0
 
 #define SDA 21
 #define SCL 22

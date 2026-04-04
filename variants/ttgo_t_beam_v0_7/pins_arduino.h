@@ -21,9 +21,9 @@
 #define GPS_RX_PIN 15
 #define GPS_TX_PIN 12
 
-#define BUTTON_PIN 39
-#define BUTTON_ACTIVEHIGH 0
-#define BUTTON_PULLUP 1
+#define BUTTON_PIN 38
+#define BUTTON_ACTIVELOW 0
+#define BUTTON_PULLUP 0
 
 // built-in LED
 static const uint8_t LED_BUILTIN = 14;
