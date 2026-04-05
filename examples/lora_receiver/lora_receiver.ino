@@ -1,10 +1,5 @@
 #include <Arduino.h>
-#include <Wire.h>
-#include <WiFi.h>
-#include <SPI.h>
-#include <SD.h>
-
-#include "LgLoraBoard.h"
+#include <LgLoraBoard.h>
 
 LgLoraBoard board;
 

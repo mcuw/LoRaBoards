@@ -1,3 +1,4 @@
+// Scan I2C addresses for troubleshooting I2C devices.
 #include <Arduino.h>
 #include <Wire.h>
 
@@ -46,7 +47,7 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(F("==================Scan Wire =================="));
+  Serial.println(F("================== Scan Wire =================="));
   scanDevices(&WIRE);
   delay(5000);
 }

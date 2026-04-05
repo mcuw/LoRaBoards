@@ -1,15 +1,7 @@
 #include <Arduino.h>
-#include <Wire.h>
-#include <WiFi.h>
-#include <SPI.h>
-#include <SD.h>
 #include <RadioLib.h> // https://jgromes.github.io/RadioLib/class_s_x1262.html
-// https://github.com/Xinyuan-LilyGO/LilyGo-LoRa-Series/blob/master/examples/TBeamFactory/TBeamFactory.ino
-#include "LgLoraBoard.h"
+#include <LgLoraBoard.h>
 
-// SX1262 radio = new Module(LORA_CS, LORA_IRQ, LORA_RST, LORA_IO2); // NSS, RST, DIO0
-// counter to keep track of transmitted packets
-int count = 0;
 LgLoraBoard board;
 volatile bool buttonClicked = false;
 

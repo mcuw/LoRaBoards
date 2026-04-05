@@ -1,15 +1,8 @@
-#include <Arduino.h>
-#include <Wire.h>
-#include <WiFi.h>
-#include <SPI.h>
-#include <SD.h>
-#include <OneButton.h>
-#include <RadioLib.h> // https://jgromes.github.io/RadioLib/class_s_x1262.html
-// https://github.com/Xinyuan-LilyGO/LilyGo-LoRa-Series/blob/master/examples/TBeamFactory/TBeamFactory.ino
-// #include "LgLoraBoard.h"
-
 // TODO add L9110 motor control to LgLoraBoard
-// LgLoraBoard board;
+#include <Arduino.h>
+#include <LgLoraBoard.h>
+
+LgLoraBoard board;
 
 #define MAX_OPEN_POSITION 8
 #define AIA 33

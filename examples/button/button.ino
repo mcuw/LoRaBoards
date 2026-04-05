@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "LgLoraBoard.h"
+#include <LgLoraBoard.h>
 
 LgLoraBoard board;
 

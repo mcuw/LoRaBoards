@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <RadioLib.h> // https://jgromes.github.io/RadioLib/class_s_x1262.html
-
-#include "LgLoraBoard.h"
+#include <LgLoraBoard.h>
 
 LgLoraBoard board;
 volatile bool buttonClicked = false;
